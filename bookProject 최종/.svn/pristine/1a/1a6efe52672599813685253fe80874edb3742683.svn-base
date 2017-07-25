@@ -1,0 +1,57 @@
+package book.dao.mybatis;
+
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.Test;
+
+import book.dao.DegreeDao;
+import book.dao.MemberDao;
+import book.dao.OrderDao;
+import book.domain.Degree;
+import book.domain.Member;
+import book.domain.Order;
+
+public class PurchasedInfoDaoLogicTest {
+
+
+	@Test
+	public void testRetrievePurchasedCount() throws IOException {
+		PurchasedInfoDaoLogic dao = new PurchasedInfoDaoLogic();
+		
+		
+		Member member = new Member();
+		OrderDao orderDao = new OrderDaoLogic();
+		List<Order> orderList = orderDao.retrieveAllByMemberId("25");
+		int sum = 0;
+		
+		for (Order order : orderList) {
+			System.out.println("orderId " + order.getOrderId());
+			int count = dao.retrievePurchasedCount(order.getOrderId());
+			sum = sum + count;
+			System.out.println(sum);
+		}
+		
+		DegreeDao degreeDao = new DegreeDaoLogic();
+		MemberDao memberDao = new MemberDaoLogic();
+		
+				List<Degree> degreeList = degreeDao.retrieveAllDegreeList();
+		 
+		for (Degree degree : degreeList) {
+			   if( sum >=  degree.getTargetCount() ) {
+				   member.setDegreeId(degree.getDegreeId());
+				   break;
+			   }
+		}
+		System.out.println("degreeId  " +member.getDegreeId()  );
+	
+		memberDao.update(member);
+		
+		System.out.println(member.getDegreeId());
+		
+		
+		}
+
+}

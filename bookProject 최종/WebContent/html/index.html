@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>소셜보드</title>
+    <meta charset="utf-8">
+    <link href="/book/resources/css/bootstrap_modify.css" rel="stylesheet">
+    <link href="/book/resources/css/layout.css" rel="stylesheet">
+    <style>
+    	.search_box{
+    		border:0px;
+    		width:400px;
+    		height:40px;	
+    		font-size:16px;
+    		padding:5px;
+    		border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+    	}
+    	.category_select{
+    		position:absolute;
+    		top:35px;
+    		left:302px;
+    		border:0px;
+    		padding:3px;
+			margin-right:-5px;   
+			font-size:16px;
+			height:40px;
+			width:80px;
+			border-left:1px solid #EEE;
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+		}
+		.img_size{
+			height:300px;
+			border:1px solid #DDD;	
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+			border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		.new_list{
+			height:280px;
+			margin-top:23px;
+		}
+		.book_list_img{
+			height:180px;
+			display:block;
+			margin:0 auto;
+			border:1px solid #DDD;
+		}
+		.best_list{
+			margin-top:20px;
+			height:280px;
+		}
+		.user_list{
+			height:280px;
+			margin-top:70px;
+		}
+		.table_border{
+			width:90%;
+			height:280px;
+			margin:0 auto;
+		}
+		.border{
+			border-top:1px solid #DDD;
+			margin-top:5px;
+		}
+		.center{
+			margin-top:5px;
+			text-align:center;
+		}
+		h4{
+			display:inline;
+		}
+		h6{
+			display:inline;
+		}
+		.more{
+			float:right;
+			display:inline;
+		}
+		.top{
+			background:#5e6b9e;
+		}
+    </style>
+</head>
+<body>
+
+<!-- Main Navigation ========================================================================================== -->
+<div class="navbar navbar-default navbar-fixed-top top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">홈</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ><a href="#">홈</a></li>
+                <li ><a href="#">게시판 관리</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            	<li><a href="#">로그인</a></li>
+            	<li><a href="#">회원가입</a></li>
+            	<li><a href="#">마이페이지</a></li>
+                <li><a href="#">로그아웃 [사용자명]</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Header ========================================================================================== -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="jumbotron">
+                    <center><select class="category_select">
+                    	<option>1</option>
+                    	<option>2</option>
+                    	<option>3</option>
+                    </select>
+                    <input type="text" name="search" placeholder="검색" class="search_box"></center>
+                </div>
+            </div>
+        </div>
+
+      
+    </div>
+
+
+<!-- Container ======================================================================================= -->
+<div class="container">
+    <div class="row">
+      
+        <div style="z-index:1020" class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
+            <div class="list-group panel panel-success top">
+                <div class="panel-heading list-group-item text-center hidden-xs">
+                    <h4>카테고리</h4>
+                </div>
+                <div>
+                    <a href="#" class="list-group-item hidden-xs">소설</a>
+                    <a href="#" class="list-group-item hidden-xs">시/에세이</a>        
+                    <a href="#" class="list-group-item hidden-xs">자기계발</a>        
+                    <a href="#" class="list-group-item hidden-xs">역사/문화</a>
+                    <a href="#" class="list-group-item hidden-xs">종교</a> 
+                    <a href="#" class="list-group-item hidden-xs">정치/사회</a> 
+                    <a href="#" class="list-group-item hidden-xs">기술/공학</a> 
+                    <a href="#" class="list-group-item hidden-xs">과학</a> 
+                    <a href="#" class="list-group-item hidden-xs">컴퓨터/IT</a> 
+                    <a href="#" class="list-group-item hidden-xs">어린이</a> 
+                    <a href="#" class="list-group-item hidden-xs">여행</a> 
+                    <a href="#" class="list-group-item hidden-xs">요리</a> 
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10 col-lg-10">
+            <div>
+                <div class="text-center hidden-xs img_size"><img src="http://image.kyobobook.co.kr/ink/images/prom/2016/book/161006_nobel/bnF_04.jpg"></div>
+            	<div class="new_list">
+            	<h4>신간 도서 </h4><h6> 북마스터가 추천합니다.</h6><img src="http://image.kyobobook.co.kr/ink/images/common/btn_more.gif" class="more">
+            	<div class="border">
+            		<table class="table_border">
+            			<tr>
+            				<td><img alt="신간도서리스트1" src="http://image.kyobobook.co.kr/images/book/large/693/l9788933870693.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+            				<td><img alt="신간도서리스트2" src="http://image.kyobobook.co.kr/images/book/large/721/l9788960869721.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+            				<td><img alt="신간도서리스트3" src="http://image.kyobobook.co.kr/images/book/large/129/l9791186940129.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+            				<td><img alt="신간도서리스트4" src="http://image.kyobobook.co.kr/images/book/large/061/l9788937417061.jpg" class="book_list_img"><div class="center">신간도서</div></td>
+            			</tr>
+            		</table>
+            	</div>
+            	</div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-12 best_list">
+        <h4>베스트셀러 </h4><h6> 지금 가장 인기있는 책입니다</h6><img src="http://image.kyobobook.co.kr/ink/images/common/btn_more.gif" class="more">
+        <div class="border">
+        	<table class="table_border">
+       			<tr>
+       				<td><img alt="베스트셀러 1" src="http://image.kyobobook.co.kr/images/book/large/693/l9788933870693.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+       				<td><img alt="베스트셀러 2" src="http://image.kyobobook.co.kr/images/book/large/721/l9788960869721.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+       				<td><img alt="베스트셀러 3" src="http://image.kyobobook.co.kr/images/book/large/129/l9791186940129.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+       				<td><img alt="베스트셀러 4" src="http://image.kyobobook.co.kr/images/book/large/061/l9788937417061.jpg" class="book_list_img"><div class="center">신간도서</div></td>
+       				<td><img alt="베스트셀러 5" src="http://image.kyobobook.co.kr/images/book/large/099/l9791186940099.jpg" class="book_list_img"><div class="center">신간도서</div></td>
+       			</tr>
+            </table>
+        </div>
+        </div>
+        <div class="col-sm-12 col-lg-12 user_list">
+        <h4>나를 위한 맞춤 추천 </h4> <h6> 관심 있는 작가와 분야에 맞춘 추천입니다.</h6><img src="http://image.kyobobook.co.kr/ink/images/common/btn_more.gif" class="more">
+        <div class="border">
+        	<table class="table_border">
+      			<tr>
+      				<td><img alt="맞춤도서리스트 1" src="http://image.kyobobook.co.kr/images/book/large/693/l9788933870693.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+      				<td><img alt="맞춤도서리스트 2" src="http://image.kyobobook.co.kr/images/book/large/721/l9788960869721.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+      				<td><img alt="맞춤도서리스트 3" src="http://image.kyobobook.co.kr/images/book/large/129/l9791186940129.jpg" class="book_list_img"><div class="center">신간도서</div></td> 
+      				<td><img alt="맞춤도서리스트 4" src="http://image.kyobobook.co.kr/images/book/large/061/l9788937417061.jpg" class="book_list_img"><div class="center">신간도서</div></td>
+      				<td><img alt="맞춤도서리스트 5" src="http://image.kyobobook.co.kr/images/book/large/099/l9791186940099.jpg" class="book_list_img"><div class="center">신간도서</div></td>
+      			</tr>
+            </table>
+        </div>
+        </div>
+    </div>
+
+<!-- Footer ========================================================================================== -->
+<footer>
+    <hr>
+    <ul class="nav nav-pills">
+        <li class="pull-right"><a href="#top">위로 이동</a></li>
+        <li><a href="#">커뮤니티 홈</a>
+        </li>
+        <li><a href="#">RSS</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">도움말</a></li>
+        <li><a href="#">회원탈퇴</a></li>
+    </ul>
+    <p>© NamooSori 2015.</p>
+     
+</footer>
+</div>
+
+</body>
+</html>

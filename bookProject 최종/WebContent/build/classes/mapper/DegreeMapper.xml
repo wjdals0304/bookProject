@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.DegreeMapper">
+
+	<!-- 등급 정보 조회 -->
+	<select id="retrieveDegree" parameterType="String" resultType="Degree"> 
+    	SELECT degreeId, degreeName, discount, targetCount 
+          FROM degree_tb
+          WHERE degreeId = #{degreeId}
+    </select>
+
+</mapper>

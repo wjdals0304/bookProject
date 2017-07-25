@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.BasketItemMapper">
+	
+	<!-- BasketItem 저장 -->
+	<insert id="create" parameterType="BasketItem" >
+		INSERT INTO basketItem_tb 
+			(count, bookId, basketId)
+		VALUES (#{count}, #{book.bookId}, #{basketId}) 
+	</insert>
+
+	<!-- BasketItem 수량 수정 -->
+	<update id="update" parameterType="BasketItem" > 
+		UPDATE basketItem_tb
+		   SET count = #{count}
+		 WHERE basketItemId = #{basketItemId}
+	</update>
+	
+	<!-- BasketItem 삭제시 delYn Y로 수정 -->
+	<update id="delete" parameterType="String"> 
+		DELETE FROM basketItem_tb
+		 WHERE basketItemId = #{basketItemId}
+	</update>
+	
+	<resultMap type="BasketItem" id="basketItem-book">
+		<result property="book.bookId" column="bookId"/>
+	</resultMap>
+	
+	<!-- 내 장바구니 조회 -->
+	<select id="retrieveAllByBasketId" parameterType="String" resultType="BasketItem" resultMap="basketItem-book"> 
+		SELECT basketItemId, count, basketId, bookId, regDate
+		  FROM basketItem_tb
+		 WHERE basketId = #{basketId}
+		 ORDER BY regDate DESC
+	</select>
+	
+	<!-- 현재 날짜와 RegDate가 7일 이상 차이인 BasketItemId 조회 -->
+	<select id="removeBasketItemWithLogin" parameterType="String" resultType="String"> 
+		<![CDATA[
+			SELECT basketItemId
+			  FROM basketItem_tb
+			 WHERE MONTHS_BETWEEN(SYSDATE, regDate) >= 0.2 and basketId = #{basketId}
+		]]>
+	</select>
+	
+</mapper>

@@ -1,0 +1,201 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>bookMarket</title>
+    <meta charset="utf-8">
+    <link href="/bookMarket/resources/css/bootstrap_modify.css" rel="stylesheet">
+    <link href="/bookMarket/resources/css/layout.css" rel="stylesheet">
+    <link href="/bookMarket/resources/css/layout_css/header.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+	    function nextButton() {
+	    	var a = "next";
+	    }
+	    function prevButton(){
+	    	var a = "pre";
+	    }
+    </script>
+    <style>
+		.img_size{
+			height:300px;
+			border:1px solid #DDD;	
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+			border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		.new_list{
+			height:280px;
+			margin-top:23px;
+		}
+		.book_list_img{
+			height:180px;
+			display:block;
+			margin:30px auto 0;
+			border:1px solid #DDD;
+		}
+		.best_list{
+			margin-top:60px;
+			height:280px;
+		}
+		.user_list{
+			height:280px;
+			margin-top:70px;
+		}
+		.table_border{
+			width:90%;
+			height:280px;
+			margin:0 auto;
+		}
+		.border{
+			border-top:1px solid #DDD;
+			margin-top:5px;
+		}
+		.center{
+			margin:5px auto 0;
+		}
+		h4{
+			display:inline;
+		}
+		h6{
+			display:inline;
+		}
+		.more{
+			float:right;
+			display:inline;
+		}
+		.top{
+			background:#5e6b9e;
+		}
+		.category_name{
+			color:#3a60df;
+			display:block;
+			text-align:center;
+			font-size:12px;
+		}
+		.sub_title{
+			display:block;
+			width:180px;
+			margin:0 auto;
+			text-align:center;
+			font-size:14px;
+			word-break:break-all;
+			height:40px;
+		}
+		.sub_author{
+			display:block;
+			text-align:center;
+			font-size:12px;
+		}
+		.prev_button{
+			float:left;
+			margin-top:100px;
+		}
+		.next_button{
+			float:right;	
+			margin-top:100px;
+		}
+    </style>
+</head>
+<body>
+
+<!-- Main Navigation ========================================================================================== -->
+ 
+ <%@include file="/layout/mainNavigation.jsp" %>
+
+<!-- Header ========================================================================================== -->
+
+ <%@include file="/layout/header.jsp" %>
+
+<!-- Container ======================================================================================= -->
+<div class="container">
+    <div class="row">
+      
+       <%@include file="/layout/categoryMenu.jsp" %>
+       
+        <div class="col-sm-10 col-lg-10">
+            <div>
+                <div class="text-center hidden-xs img_size"><img src="http://image.kyobobook.co.kr/ink/images/prom/2016/book/161006_nobel/bnF_04.jpg"></div>
+            	<div class="new_list">
+            	<h4>신간 도서 </h4><h6> 북마스터가 추천합니다.</h6>
+            	<div class="border">
+            		<table class="table_border">
+            			<tr>
+            			
+            			<c:forEach items="${newBookList}" var="newBookList">
+            				<td>
+	            				<a href="/bookMarket/book/detail?bookId=${newBookList.bookId}"><img alt="${newBookList.title}" src="${newBookList.img}" class="book_list_img">
+	            				<div class="center">
+	            					<span class="category_name">[ ${newBookList.category.categoryName} ]</span>
+	            					<span class="sub_title">${newBookList.title}</span>
+	            					<span class="sub_author">${newBookList.author}</span>
+	            				</div>
+	            				</a>
+            				</td> 
+            			</c:forEach>
+            			
+            			</tr>
+            		</table>
+            	</div>
+            	</div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-12 best_list">
+        <h4>베스트셀러 </h4><h6> 지금 가장 인기있는 책입니다</h6>
+        <div class="border">
+        	<table class="table_border">
+       			<tr>
+	       			<c:forEach items="${bestSellerList}" var="bestSellerList">
+	       				<td>
+	       				<a href="/bookMarket/book/detail?bookId=${bestSellerList.bookId}"><img alt="${bestSellerList.title}" src="${bestSellerList.img}" class="book_list_img">
+	       					<div class="center">
+	       						<span class="category_name">[ ${bestSellerList.category.categoryName} ]</span>
+	            				<span class="sub_title">${bestSellerList.title}</span>
+	            				<span class="sub_author">${bestSellerList.author}</span>
+	       					</div>
+	       				</a>
+	       				</td> 
+	       			</c:forEach>
+       			</tr>
+            </table>
+        </div>
+        </div>
+        
+        <c:if test="${customedBookList ne null}">
+	        <div class="col-sm-12 col-lg-12 user_list">
+	        <h4>나를 위한 맞춤 추천 </h4> <h6> 관심 있는 작가와 분야에 맞춘 추천입니다.</h6>
+	        <div class="border">
+	        	<table class="table_border">
+	      			<tr>
+	      			
+		      			<c:forEach items="${customedBookList}" var="customedBookList">
+		      				<td>
+		      				<a href="/bookMarket/book/detail?bookId=${customedBookList.bookId}"><img alt="${customedBookList.title}" src="${customedBookList.img}" class="book_list_img">
+		      					<div class="center">
+	            					<span class="category_name">[ ${customedBookList.category.categoryName} ]</span>
+	            					<span class="sub_title">${customedBookList.title}</span>
+	            					<span class="sub_author">${customedBookList.author}</span>
+		            			</div>
+		            		</a>
+		      				</td> 
+		      			</c:forEach>
+	      			</tr>
+	            </table>
+	        </div>
+	        </div>
+        </c:if>
+        
+    </div>
+
+<!-- Footer ========================================================================================== -->
+
+<%@include file="/layout/footer.jsp" %>
+
+</div>
+
+</body>
+</html>

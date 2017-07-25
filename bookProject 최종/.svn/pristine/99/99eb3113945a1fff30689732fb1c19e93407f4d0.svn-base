@@ -1,0 +1,420 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>도서 상세조회</title>
+	<link href="/bookMarket/resources/css/bootstrap_modify.css" rel="stylesheet">
+    <link href="/bookMarket/resources/css/layout.css" rel="stylesheet">
+    <link href="/bookMarket/resources/css/layout_css/header.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="/bookMarket/resources/css/gpaStar.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/bookMarket/resources/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/bookMarket/resources/js/star-rating.js" type="text/javascript"></script>
+     
+    
+    <script type="text/javascript">
+	    function plus() {
+	    	if(document.getElementById("count").value == 1){
+	    		var count = 1;
+		    	++count;
+		    	document.getElementById("count").value=count;
+	    	}else{
+	    		++document.getElementById("count").value;
+	    	}
+	    }
+	    
+	    function minus() {
+	    	if(document.getElementById("count").value != 1){
+	    		--document.getElementById("count").value;
+	    	}else if(document.getElementById("count").value == 1){
+	    		document.getElementById("count").value=1;
+	    	}
+	    }
+	    function basket(){
+	    	location.href="/bookMarket/basketItem/create?bookId=" + ${book.bookId} + "&count=" + document.getElementById("count").value;
+	    }
+	    function order(){
+            location.href="/bookMarket/purchasedInfo/order?bookId=" + ${book.bookId} +"&count=" + document.getElementById("count").value;
+        };
+	    
+	    jQuery(document).ready(function () {
+	        $('#rating-input').rating({
+	              min: 0,
+	              max: 10,
+	              step: 2,
+	              size: 'xs',
+	              showClear: false
+	           });
+	        $('#btn-rating-input').on('click', function() {
+	            $('#rating-input').rating('refresh', {
+	                showClear:true, 
+	                disabled: !$('#rating-input').attr('disabled')
+	            });
+	        });
+	        $('#rating-input').on('rating.change', function() {
+	            
+	        });
+	    });
+	    	
+	</script>
+    
+    <style>
+		.img_size{
+			height:400px;
+			border:1px solid #DDD;	
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+			border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		.new_list{
+			height:280px;
+			margin-top:23px;
+		}
+		.book_list_img{
+			height:180px;
+			display:block;
+			margin:30px auto 0;
+			border:1px solid #DDD;
+		}
+		.best_list{
+			border-top:3px solid #DDD;
+			padding:30px 0;
+			margin-top:70px;
+			height:350px;
+		}
+		.user_list{
+			height:280px;
+			margin-top:70px;
+		}
+		.table_border{
+			width:90%;
+			height:280px;
+			margin:0 auto;
+		}
+		.border{
+			border-top:1px solid #DDD;
+			margin-top:5px;
+		}
+		.center{
+			margin-top:5px;
+			text-align:center;
+		}
+		h4{
+			display:inline;
+		}
+		h6{
+			display:inline;
+		}
+		.more{
+			float:right;
+			display:inline;
+		}
+		.top{
+			background:#5e6b9e;
+		}
+		.book_img{
+			padding-left:30px;
+		}
+		.title{
+			font-size:35px;
+			color:#3a60df;
+			font-weight:bold;
+			display:block;
+		}
+		.author{
+			font-size:20px;
+			border-right:1px solid #CCC;
+			margin-right:15px;
+			padding-right:15px;
+			margin-bottom:20px;
+		}
+		.publisher{
+			font-size:20px;
+			border-right:1px solid #CCC;
+			margin-right:15px;
+			padding-right:15px;
+			margin-bottom:20px;
+		}
+		.publishedDate{
+			font-size:20px;
+			margin-bottom:20px;
+			display:block;
+		}
+		.gpa{
+			display:block;
+			font-size:20px;
+		}
+		span{
+			margin-bottom:20px;
+		}
+		.info{
+			margin-bottom:20px;
+		}
+		.border_bottom{
+			border-bottom:1px solid #CCC;
+			margin-bottom:40px;
+		}
+		.price, .sale{
+			display:block;
+			margin-bottom:20px;
+			font-size:18px;
+		}
+		.salesPrice{
+			font-size:30px;
+			color:red;
+			font-weight:bold;
+		}
+		.sales{
+			font-size:20px;
+			margin-bottom:25px;
+			display:block;
+		}
+		.price_info{
+			border-bottom:1px solid #CCC;
+			margin-bottom:30px;
+		}
+		.button{
+			width:150px;
+			padding:12px;
+			font-size:20px;
+			margin-left:10px;
+		}
+		.book_info{
+			border-top:3px solid #DDD;
+			padding:50px 30px;
+			margin-top:20px;
+			font-size:20px;
+			border-bottom:1px solid #DDD;
+			margin-bottom:50px;
+		}
+		.book_title{
+			font-size:30px;
+			display:block;
+		}
+		.contents{
+			display:block;
+			font-size:20px;
+			margin-top:30px;
+		}
+		.img_button{
+			border:1px solid #CCC;
+			padding:8px;
+			margin-bottom:5px;
+		}
+		.count{
+			width:60px;
+			padding:5px;
+			margin-bottom:20px;
+			font-size:20px;
+		}
+		.amount_text{
+			font-size:20px;
+		}
+		.comment_hr{
+			border-bottom:2px solid #CCC;
+			padding-bottom:30px;
+		}
+		.contents_title{
+			font-size:30px;
+			display:block;
+			margin-top:50px;
+		}
+		.allGpa{
+			display:inline;
+		}
+		.sub_title{
+			display:block;
+			width:180px;
+			margin:0 auto;
+			text-align:center;
+			font-size:14px;
+			word-break:break-all;
+			height:40px;
+		}
+		.sub_author{
+			display:block;
+			text-align:center;
+			font-size:12px;
+		}
+		.starRating{
+			margin-top:15px;
+		}
+		.login{
+			font-weight:bold;
+			font-size:20px;
+			color:#AAA;
+		}
+    </style>
+</head>
+<body>
+
+<!-- Main Navigation ========================================================================================== -->
+
+<%@include file="/layout/mainNavigation.jsp" %>
+
+<!-- Header ========================================================================================== -->
+
+<%@include file="/layout/header.jsp" %>
+
+<!-- Container ======================================================================================= -->
+<div class="container">
+
+    <%@include file="/layout/categoryMenu.jsp" %>
+
+		<div class="col-lg-4 col-lg-4 book_img">
+			<img src="${book.img}" class="img_size">
+		</div>
+	
+		<div class="col-lg-6 col-lg-6">
+			<div class="border_bottom">
+				<span class="title">${book.title}</span>
+				<div class="info">
+					<span class="author">${book.author}</span>
+					<span class="publisher">${book.publisher}</span>
+				</div>
+					<span class="publishedDate">출간일 : <fmt:formatDate value="${book.publishedDate}" pattern="yyyy년 MM월 dd일"/></span>
+					<span class="gpa">
+					평점 : <span class="starRating"><span style="width:${book.allGpa}%">${book.allGpa}</span></span>
+						 <%-- <input id="rating-input" type="number" value="${book.allGpa}" class="allGpa" readonly/> --%>
+					</span>
+			</div>
+			<div class="price_info">
+				<span class="price">정가 :<fmt:formatNumber value="${book.price}" type="number" />원</span>
+				<c:set var="price" value="${(book.price-(book.price * (sessionScope.degree.discount+0.0)/(100+0.0)))}" />
+				
+				<c:if test="${sessionScope.member.memberId ne null}">
+					<span class="sale">판매가 : <span class="salesPrice"><fmt:formatNumber value="${price}" type="number" />원</span></span>
+					<span class="sales">할인율: ${sessionScope.degree.discount}%</span>
+				</c:if>
+				
+			</div>
+			<c:choose>
+				<c:when test="${sessionScope.member.memberId ne null}">
+					<span class="amount_text">주문수량</span>&nbsp;&nbsp;<input id="count" type="text" value="1" class="count" readonly> <a href="javascript:plus()"><img class="img_button" src="http://image.kyobobook.co.kr/ink/images/common/btn_plus.gif"></a>
+					<a href="javascript:minus()"><img class="img_button" src="http://image.kyobobook.co.kr/ink/images/common/btn_minus.gif"></a>
+				
+					<div class="form-btn">
+						<button class="btn btn-large btn-warning button">찜</button>
+						<button class="btn btn-large btn-warning button" onclick="basket()">장바구니</button>
+						<button class="btn btn-large btn-default button" onclick="order()">바로구매</button>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="login">로그인이 필요한 서비스입니다.</div>
+				</c:otherwise>
+			</c:choose>
+			
+		</div>
+		
+		<c:if test="${fn:length(bookList) != '0' && bookList eq null}">
+		<div class="col-sm-12 col-lg-12 best_list">
+        <h4>이 책을 구매하신 분들이 함께 구매하신 상품입니다  </h4><img src="http://image.kyobobook.co.kr/ink/images/common/btn_more.gif" class="more">
+        <div class="border">
+        	<table class="table_border">
+       			<tr>
+	       			<c:forEach items="${bookList}" var="bookList">
+	       				<c:if test="${book.bookId ne bookList.bookId}">
+	       				<td>
+		       				<a href="/bookMarket/book/detail?bookId=${bookList.bookId}"><img alt="${bookList.title}" src="${bookList.img}" class="book_list_img">
+		       				<div class="center">
+		       					<span class="sub_title">${bookList.title}</span>
+		       					<span class="sub_author">${bookList.author}</span>
+			            	</div>
+			            	</a>
+		            	</td> 
+		            	</c:if>
+	       			</c:forEach>	
+       			</tr>
+            </table>
+        </div>
+        </div>
+    </c:if>
+		
+		<div class="col-lg-12 col-lg-12">
+			<div class="book_info">
+				<span class="book_title">책소개</span>
+				<span>${book.introduce}</span>
+				<span class="contents_title">목차</span>
+				<span class="contents">${book.tableOfContents}</span>
+			</div>
+		</div>
+
+		<c:if test="${not empty sessionScope.member.loginId && existPurchasedInfo == 'T' }">
+			<div class="col-lg-12 col-lg-12 comment_hr">
+				<div class="panel-footer">
+					<form action="/bookMarket/comment/create" method="post">
+						<input id="rating-input" type="number" name="gpa"/>
+						<input type="hidden" name="bookId" value="${book.bookId}" />
+		            	<div class="write_area">
+							<div>
+								<textarea class="input_write_comment" name="comment"
+									placeholder="댓글 쓰기" required></textarea>
+								<input type="submit" class="comment_submit" value="전송">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</c:if>
+		<c:if test="${commentList.size() ne 0}">
+		<div id=comment_write class="col-lg-12 col-lg-12">
+			<table class="table" style="font-size: 13px; padding :20px">
+		         <c:forEach items="${commentList}" var="comment">
+			     	<tr>
+			         	<td>
+			            	<strong>${comment.loginId}</strong>
+			        	</td>
+			            <td class="text-right">
+			            	${comment.regDate}
+			                <c:if test="${sessionScope.member.loginId eq comment.loginId}">
+			               		<a class="glyphicon glyphicon-trash" href="/bookMarket/comment/delete?bookId=${book.bookId}&commentId=${comment.commentId}"></a>
+			                </c:if>
+			            </td>
+			        </tr>
+			        <tr>
+			        	<td colspan="2">
+			            	<p class="txt">${comment.contents}</p>
+			        	</td>
+			        </tr>
+		    	</c:forEach>
+			</table>
+		
+			<div id=comment_list class="paginate">
+	        	<a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${paging.firstPageNo}#comment_list" >처음 페이지</a>
+	        	<a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${paging.prevPageNo}#comment_list" >이전 페이지</a>
+	            <span>
+	          		<c:forEach var="i" begin="${paging.startPageNo}" end="${paging.endPageNo}" step="1">
+	            		<c:choose>
+			                <c:when test="${i eq paging.pageNo}">
+			               		<a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${i}#comment_list">${i}</a>
+			                </c:when>
+			                <c:otherwise>
+			               		<a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${i}#comment_list">${i}</a>
+			                </c:otherwise>
+	           			</c:choose>
+	       			</c:forEach>
+	    		</span>
+		        <a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${paging.nextPageNo}#comment_list" >다음 페이지</a>
+		        <a href="/bookMarket/book/detail?bookId=${book.bookId}&index=${paging.finalPageNo}#comment_list" >마지막 페이지</a>
+	   		</div>
+		</div>
+		</c:if>
+	
+<!-- Footer ========================================================================================== -->
+
+<%@include file="/layout/footer.jsp" %>
+
+</div>
+
+</body>
+</html>

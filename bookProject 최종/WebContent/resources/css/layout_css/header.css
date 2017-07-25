@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+.logo_img{
+    		width:200px;
+    		position:absolute;
+    		top:40px;
+    		left:0px;
+    	}
+    	.search_box{
+    		border:0px;
+    		width:400px;
+    		height:40px;	
+    		font-size:16px;
+    		padding:5px;
+    		border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+			position:absolute;
+			top:45px;
+			left:430px;
+			border:1px solid #CCC;
+    	}
+    	.category_select{
+    		position:absolute;
+    		top:45px;
+    		left:302px;
+    		border:0px;
+    		padding:3px;
+			margin-right:-5px;   
+			font-size:16px;
+			height:40px;
+			width:120px;
+			border-left:1px solid #EEE;
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+			border:1px solid #CCC;
+		}
+		.search_button{
+			position:absolute;
+			top:45px;
+			left:836px;
+			font-size:15px;
+			width:80px;
+			height:40px;
+		}

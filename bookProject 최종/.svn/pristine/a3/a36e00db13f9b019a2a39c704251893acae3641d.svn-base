@@ -1,0 +1,78 @@
+package book.dao.mybatis;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import book.dao.DegreeDao;
+import book.dao.OrderDao;
+import book.dao.PurchasedInfoDao;
+import book.domain.Degree;
+import book.domain.Member;
+import book.domain.Order;
+
+public class OrderDaoLogicTest {
+	
+	OrderDao orderDao;
+	DegreeDao degreeDao;
+	PurchasedInfoDao purchasedInfoDao;
+	@Before
+	public void init(){
+		//
+		System.out.println("init");
+		orderDao = new OrderDaoLogic();
+		degreeDao = new DegreeDaoLogic();
+		purchasedInfoDao = new PurchasedInfoDaoLogic();
+	}
+	@Test
+	public void updateDegree() {
+		Member member = new Member();
+
+		List<Order> orderList = orderDao.retrieveAllByMemberId("25");
+		int sum = 0;
+		
+		for (Order order : orderList) {
+			int count = purchasedInfoDao.retrievePurchasedCount(order.getOrderId());
+			sum = sum + count;
+		}
+		List<Degree> degreeList = degreeDao.retrieveAllDegreeList();
+
+		for (Degree degree : degreeList) {
+			if (sum > degree.getTargetCount()) {
+				member.setDegreeId(degree.getDegreeId());
+				break;
+			}
+		}
+		assertEquals(36, sum);
+	}
+	
+	@Test
+	public void testRetrieveOrderByMonth() throws IOException{
+		List<String> orderIdList = orderDao.retrieveOrderByMonth();
+	    assertNotNull(orderIdList);
+	}
+	
+	@Test
+	public void testRetrieveOrderBYMemberId() throws IOException{
+		List<String> memberIdList = orderDao.retrieveOrderByBookId("25");
+		assertEquals(3,memberIdList.size());
+	}
+
+	@Test
+	public void testOrderNumber() throws IOException {
+		String orderId = orderDao.retrieveMyOrderId("25");
+		assertEquals("27",orderId);
+	}
+	
+	@After
+	public void tearDown(){
+		//
+		System.out.println("tearDown");
+	}
+}

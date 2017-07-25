@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.PurchasedInfoMapper">
+
+	
+	<!--  book객체에 저장하기 위한 resultMap -->
+	 <resultMap type="PurchasedInfo" id="purchasedInfo-resultmap">
+	 	<result property="book.bookId" column="bookId"/>
+	 </resultMap>
+	 
+	<!-- 베스트셀러 조회시 접속한 날짜가 속한 그 달의 판매량 리스트 조회 -->
+	<select id="retrievePurchasedCountByMonth" resultType="PurchasedInfo" resultMap="purchasedInfo-resultmap" parameterType="java.util.List"> 
+	 	SELECT bookId FROM (SELECT bookId FROM purchasedInfo_tb 
+	 	<where> orderId IN
+	 		<foreach collection="list" item="orderId" open="(" close=")" separator=", ">
+	 			#{orderId}
+	 		</foreach>
+	 	</where>
+		GROUP BY bookId ORDER BY sum(count) DESC) 
+    	<![CDATA[WHERE rownum<=5 ]]>
+	</select>
+	
+		<!-- 내가 산orderId로 구매리스트 반환   -->
+	<select id="retrieveAllByOrderId" parameterType="String" resultType="PurchasedInfo"
+	 resultMap="purchasedInfo-resultmap">
+		SELECT PURCHASEDINFOID,COUNT,ORDERID,BOOKID
+		FROM PURCHASEDINFO_TB
+		WHERE ORDERID=#{ORDERID}
+	</select>
+	
+	<!-- 내가산 orderId로 총 count 구하기  -->
+	   <select id="retrievePurchasedCount" parameterType="String" resultType="Integer">
+    <![CDATA[ select sum(count) as count from purchasedInfo_tb 
+     where orderId=#{orderId} ]]>
+   </select>		
+	 
+    <select id="countByBook" parameterType="PurchasedInfo" resultType="int">
+       select count
+       from purchasedInfo_tb
+       where bookid=#{book.bookId} and orderId=#{orderId} and PURCHASEDINFOID=#{purchasedInfoId}
+    </select>
+    
+    		<!-- 구매리스트 등록하기  -->
+	 <insert id="createPurchasedInfo" parameterType="PurchasedInfo"
+		useGeneratedKeys="true" keyProperty="purchasedInfoId">
+		INSERT INTO PURCHASEDINFO_TB
+			(count,orderId,bookId)
+		 VALUES
+			(#{count},#{orderId},#{book.bookId})
+	 </insert> 
+	 
+	<select id="checkPurchasedInfoIdByOrderIdMemberId" parameterType="HashMap" resultType="string">
+		SELECT purchasedInfoId
+		  FROM purchasedInfo_tb
+		 WHERE orderId = #{orderId} and bookId = #{bookId}
+	</select>
+</mapper>

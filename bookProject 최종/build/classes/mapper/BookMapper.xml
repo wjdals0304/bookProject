@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.BookMapper">
+
+	<!--메인 신간 도서 조회 리스트 -->
+	<select id="showNewBookList" resultMap="category-resultmap" resultType="Book">
+		<![CDATA[ 
+			SELECT bookId, img, title, author, categoryId 
+			FROM (SELECT bookId, img, title, author, categoryId 
+			             FROM book_tb
+			         order by publishedDate DESC)
+			WHERE ROWNUM<5
+		]]> 
+	</select>
+
+	<!-- 로그인시 메인 맞춤 도서 조회 리스트 -->
+	<select id="showCustomedBookList" parameterType="String" resultType="Book" resultMap="category-resultmap">
+		<![CDATA[ 
+		SELECT bookId, 
+		            title, 
+		            author,
+		            publisher, 
+		            publishedDate, 
+		            price, 
+		            img, 
+		            introduce, 
+		            tableOfContents, 
+		            salesVolume, 
+		            allGpa, 
+		            categoryId 
+		FROM book_tb 
+		WHERE categoryId = #{categoryId} AND ROWNUM <= 5
+		ORDER BY salesVolume DESC
+		]]> 
+	</select>
+
+	<!-- 검색시 카테고리 선택하고 키워드검색 리스트 -->
+	<select id="searchBookByCategory" parameterType="HashMap" resultType="Book">
+	<![CDATA[
+		SELECT bookId, title, author,
+			   publisher, publishedDate, price, 
+	           img, introduce, tableOfContents, 
+			   salesVolume, allGpa, categoryId
+	    FROM BOOK_TB
+	    WHERE TITLE LIKE #{keyword} AND CATEGORYID = #{categoryId}
+					
+		]]>
+	</select>
+	<select id="searchBookByCategoryPaging" parameterType="HashMap" resultType="Book">
+	<![CDATA[
+		SELECT rnum, bookId, title, author,
+		       publisher, publishedDate, price, 
+		       img, introduce, tableOfContents, 
+		       salesVolume, allGpa, categoryId
+		  FROM (SELECT rnum, bookId, title, author,
+				       publisher, publishedDate, price, 
+				       img, introduce, tableOfContents, 
+				       salesVolume, allGpa, categoryId
+				  FROM (SELECT rownum rnum,  
+				       		   bookId, title, author,
+							   publisher, publishedDate, price, 
+					           img, introduce, tableOfContents, 
+							   salesVolume, allGpa, categoryId
+						  FROM BOOK_TB
+						  WHERE TITLE LIKE #{keyword} and CATEGORYID = #{categoryId}
+						)
+				  WHERE rnum < #{endNum}
+				)
+		WHERE rnum > #{startNum}
+	]]>
+	</select>
+
+	<!-- 검색시 키워드만 검색 리스트 -->
+	<select id="searchBookByKeyword" parameterType="string" resultType="Book">
+		SELECT bookId, 
+		       title, 
+		       author,
+		       publisher, 
+		       publishedDate, 
+		       price, 
+		       img, 
+		       introduce, 
+		       tableOfContents, 
+		       salesVolume, 
+		       allGpa, 
+		       categoryId
+		  FROM BOOK_TB
+		 WHERE title LIKE #{Keyword} 
+	</select>
+	
+	<select id="searchBookByKeywordPaging" parameterType="HashMap" resultType="Book">
+	<![CDATA[
+		SELECT rnum, bookId, title, author,
+		       publisher, publishedDate, price, 
+		       img, introduce, tableOfContents, 
+		       salesVolume, allGpa, categoryId
+		  FROM (SELECT rnum, bookId, title, author,
+				       publisher, publishedDate, price, 
+				       img, introduce, tableOfContents, 
+				       salesVolume, allGpa, categoryId
+				  FROM (SELECT rownum rnum,  
+				       		   bookId, title, author,
+							   publisher, publishedDate, price, 
+					           img, introduce, tableOfContents, 
+							   salesVolume, allGpa, categoryId
+						  FROM BOOK_TB
+						  WHERE TITLE LIKE #{keyword}
+						)
+				  WHERE rnum < #{endNum}
+				)
+		WHERE rnum > #{startNum}
+	]]>
+	</select>
+	
+	<select id="retrieveAllByCategoryId" parameterType="String"   resultType="Book" resultMap="category-resultmap">
+		SELECT bookId,
+   			   title,
+			   author, 
+			   publisher, 
+			   publishedDate, 
+			   price, 
+			   img,
+			   introduce, 
+			   tableOfContents, 
+			   salesVolume, 
+			   allGpa, 
+			   categoryId
+	      FROM BOOK_TB
+	     WHERE categoryId = #{categoryId}
+	   </select>
+	   
+	   <select id="retrieveAllByCategoryIdPaging" parameterType="HashMap" resultType="Book">
+		<![CDATA[
+		SELECT rnum, bookId, title, author,
+		       publisher, publishedDate, price, 
+		       img, introduce, tableOfContents, 
+		       salesVolume, allGpa, categoryId
+		  FROM (SELECT rnum, bookId, title, author,
+				       publisher, publishedDate, price, 
+				       img, introduce, tableOfContents, 
+				       salesVolume, allGpa, categoryId
+				  FROM (SELECT rownum rnum,  
+				       		   bookId, title, author,
+							   publisher, publishedDate, price, 
+					           img, introduce, tableOfContents, 
+							   salesVolume, allGpa, categoryId
+						  FROM BOOK_TB
+						  WHERE CATEGORYID = #{categoryId}
+						)
+				  WHERE rnum < #{endNum}
+				)
+		WHERE rnum > #{startNum}
+	]]>
+	   </select>
+
+	<!-- book 상세 조회 resultmap -->
+	<resultMap type="Book" id="category-resultmap">
+		<result property="category.categoryId" column="categoryId"/>
+	</resultMap>
+
+	<!-- bookId로 북정보 조회 -->
+	<select id="retrieveBook" resultType="Book"  resultMap="category-resultmap" parameterType="String">
+		SELECT bookId, 
+		            title, 
+		            author,
+		            publisher, 
+		            publishedDate, 
+		            price, 
+		            img, 
+		            introduce, 
+		            tableOfContents, 
+		            salesVolume, 
+		            allGpa, 
+		            categoryId 
+		FROM book_tb 
+		WHERE bookId = #{bookId}
+	</select>
+
+	<update id="updateGpa" parameterType="Book">
+		UPDATE book_tb
+		   SET allGpa = #{allGpa}
+		 WHERE bookId = #{bookId}
+	</update>
+	
+	<select id="retrieveByCategoryId" parameterType="HashMap" resultType="Book" resultMap="category-resultmap">
+		SELECT bookId, title, author, publisher, publishedDate, price, img,
+		introduce, tableOfContents, salesVolume, allGpa, categoryId 
+		FROM book_tb WHERE bookId = #{bookId} AND categoryId=#{categoryId}
+	</select>
+
+	<!-- 판매량 업데이트  -->
+	<update id="updateSalesVolume" parameterType="Book" > 
+		Update BOOK_TB  SET salesVolume=#{salesVolume}
+		WHERE BOOKID=#{bookId}
+	</update>
+
+</mapper>

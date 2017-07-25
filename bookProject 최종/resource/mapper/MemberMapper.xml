@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.MemberMapper">
+
+	<!-- 로그인시 아이디, 비밀번호 확인 -->
+	<select id="loginCheck" parameterType="String" resultType="Member"> 
+		SELECT memberId, loginId, password, userName, degreeId
+		  FROM member_tb
+		 WHERE loginId = #{loginId}
+	</select>
+	
+	<!-- 회원가입시 아이디 중복 체크 -->
+	<select id="checkLoginId" parameterType="String" resultType="String">
+		SELECT loginId
+		  FROM member_tb
+		 WHERE loginId = #{loginId}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="create" parameterType="Member" useGeneratedKeys="true" keyProperty="MEMBERID">
+		INSERT INTO member_tb 
+			(loginId, userName, password)
+		VALUES (#{loginId}, #{userName}, #{password})
+	</insert>
+	
+	<!-- 구매시 회원등급 수정 -->
+	<update id="update" parameterType="Member">
+		UPDATE member_tb SET
+		  degreeId = #{degreeId}
+		 WHERE memberId = #{memberId}
+	</update>
+	
+</mapper>

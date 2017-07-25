@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.OrderMapper">
+
+	<!-- 베스트셀러 조회시 접속한 날짜가 속한 그 달의 판매량 리스트 조회를 위한 orderId 조회 -->
+	<select id="retrieveOrderByMonth" resultType="String" > 
+		<![CDATA[
+			SELECT orderId FROM order_tb 
+			WHERE (SELECT trunc(add_months(sysdate, -1),'mm') FROM dual) <= orderDate
+			AND orderDate <= (SELECT last_day(sysdate) FROM dual)
+		]]> 
+	</select>
+	
+	<!-- 추천도서 리스트 조회시 bookId로 다른 사람들이 구매한 리스트 조회 memberId 조회-->
+	<select id="retrieveOrderByBookId" parameterType="String" resultType="string"> 
+		 SELECT DISTINCT memberId FROM order_tb o, purchasedInfo_tb p 
+		 WHERE o.ORDERID=p.ORDERID AND bookId= #{bookId}
+	</select>
+	
+	<!-- 추천도서 memberId리스트 받아서 bookId리스트 조회 -->
+	<select id="retrieverOrderByMemberId" resultType="string" parameterType="java.util.List"> 
+		  SELECT DISTINCT bookId FROM order_tb o, purchasedInfo_tb p 
+		  <where> o.memberId IN
+		  	<foreach collection="list" item="memberId" open="(" close=")" separator=" , ">
+	 			#{memberId}
+	 		</foreach>
+		  </where>
+		  AND o.DELYN='N' AND o.orderId = p.orderId
+	</select>
+	
+	<!-- 주문등록하기  -->
+	<insert id="createOrder" parameterType="Order" useGeneratedKeys="true"
+		keyProperty="ORDERID">
+		INSERT INTO ORDER_TB
+		(MEMBERID,TOTALPRICE)
+ 		VALUES
+		(#{memberId},#{totalPrice})
+	</insert>
+		
+		 
+	 <!-- memberId로 내가 마지막 주문한 주문번호 가져오기 -->
+	<select id="retrieveMyOrderId" parameterType="String" resultType="String">
+		select max(orderId)  as orderId  
+		from order_tb 
+		where memberId=#{memberId}
+	</select>	
+		
+	 <!--memberId로  내가산 주문리스트 조회  -->
+	<select id="retrieveAllByMemberId" parameterType="String"
+		resultType="Order">
+		<![CDATA[ 
+		SELECT ORDERID,ORDERDATE,MEMBERID,TOTALPRICE
+		  FROM ORDER_TB
+		WHERE (SELECT to_char(TRUNC(add_months(SYSDATE, -2), 'DD'),'YY/MM/DD') FROM dual ) <= ORDERDATE
+		and MEMBERID = #{MEMBERID} and DELYN ='N' ]]>
+	</select>
+	
+		<!-- 기본3개월  order 페이징가져오기 -->
+	 <select id="pagingOrderList"   parameterType="HashMap"  resultType="Order">
+	 <![CDATA[ 
+	 	select  rownum rnum, ORDERID, ORDERDATE, MEMBERID,TOTALPRICE 
+	 	  from (select  rownum rnum, ORDERID, ORDERDATE, MEMBERID,TOTALPRICE 
+	 	          from (SELECT rownum rnum, ORDERID, ORDERDATE, MEMBERID,TOTALPRICE
+		                  FROM ORDER_TB
+		                 WHERE (SELECT to_char(trunc(add_months(sysdate, -2), 'dd'),'yy/mm/dd') FROM dual ) <= ORDERDATE
+   		                   and MEMBERID = #{memberId} and DELYN ='N' order by ORDERID DESC) ORDER_TB 
+   		 WHERE  rnum < to_number(#{end})) where rnum >to_number(#{start}) ]]>
+	 </select>	
+	 
+	  <!-- 기간 리스트 가져오기 -->
+   <select id="retrieveAllByPeriod" parameterType="HashMap"  resultType="Order">
+	<![CDATA[ 
+	SELECT ORDERID,ORDERDATE,MEMBERID,TOTALPRICE
+		FROM
+		ORDER_TB
+		WHERE MEMBERID =#{memberId} and DELYN ='N' and  ORDERDATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+        AND ORDERDATE <= TO_DATE(#{endDate},'YYYY-MM-DD')+1 ]]>
+	</select>
+	 
+	<!--  조회기간 order 페이징가져오기 -->
+  	<select id="pagingPeriodOrderList" parameterType="HashMap" resultType="Order">
+  	 <![CDATA[ select rownum rnum,ORDERID,ORDERDATE,MEMBERID,TOTALPRICE 
+      from ( 
+          select rownum rnum,ORDERID,ORDERDATE,MEMBERID,TOTALPRICE   
+         from (
+         SELECT rownum rnum,ORDERID,ORDERDATE,MEMBERID,TOTALPRICE
+        	FROM
+          ORDER_TB
+          WHERE MEMBERID = #{memberId} and DELYN ='N' 
+          and  ORDERDATE between to_date(#{startDate},'YYYY-MM-DD') 
+          and to_date(#{endDate},'YYYY-MM-DD')+1 order by ORDERID DESC
+          ) ORDER_TB
+        WHERE  rnum < to_number(#{end})
+         ) where rnum > to_number(#{start})]]>
+  	</select>
+  
+	 
+	
+</mapper>

@@ -1,0 +1,373 @@
+<!-- 잘 업데이트 되었나 확인 - 김정수 - -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>도서 주문</title>
+   <link href="/bookMarket/resources/css/bootstrap_modify.css" rel="stylesheet">
+    <link href="/bookMarket/resources/css/layout.css" rel="stylesheet">
+    <link href="/bookMarket/resources /css/layout_css/header.css" rel="stylesheet">
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+	  
+	  //수량
+	    function Cnt_UpDown(obj, key) {
+	    	if(isNaN(parseInt(obj.value))) { // 숫자가 아니면...
+	    		obj.value = 1;
+	    		return;
+	    	} else {
+	    		if(key == "D") {
+	    			if(parseInt(obj.value) <= 1) {
+	    				return;
+	    			} else {
+	    				obj.value = parseInt(obj.value) - 1;
+	    				return;
+	    			}
+	    		} else {
+	    			obj.value = parseInt(obj.value) + 1;
+	    			return;
+	    		}
+	    	}
+	    };
+	    
+	    function allClick() {
+	    	cbox = basket.check;
+	    	if(cbox.length) {
+	    		for (var i=0;i<cbox.length;i++) {
+	    			cbox[i].checked=basket.all.checked;
+	    		}
+	    	}
+	    }
+	    
+	    function count_change() {
+	    	var count = document.getElementId("count").value;
+	    	
+	    };
+    </script>
+    <style>
+      .img_size{
+         height:450px;
+         border:1px solid #DDD;   
+         border-top-left-radius:5px;
+         border-bottom-left-radius:5px;
+         border-top-right-radius:5px;
+         border-bottom-right-radius:5px;
+      }
+      .new_list{
+         height:280px;
+         margin-top:23px;
+      }
+      .book_list_img{
+         height:180px;
+         display:block;
+         margin:0 auto;
+         border:1px solid #DDD;
+      }
+      .best_list{
+         margin-top:20px;
+         height:280px;
+      }
+      .user_list{
+         height:280px;
+         margin-top:70px;
+      }
+      .table_border{
+         width:90%;
+         height:280px;
+         margin:0 auto;
+      }
+      .border{
+         border-top:1px solid #DDD;
+         margin-top:5px;
+      }
+      .right{
+         text-align:right;
+         width:180px;
+         padding:12px;
+         font-size:20px;
+         margin-left:10px;
+      }
+      .center{
+         margin-top:5px;
+         text-align:center;
+      }
+      h4{
+         display:inline;
+      }
+      h6{
+         display:inline;
+      }
+      .more{
+         float:right;
+         display:inline;
+      }
+      .top{
+         background:#5e6b9e;
+      }
+      .book_img{
+         padding-left:30px;
+         
+      }
+      .title{
+         font-size:35px;
+         color:#3a60df;
+         font-weight:bold;
+         display:block;
+      }
+      .author{
+         font-size:20px;
+         border-right:1px solid #CCC;
+         margin-right:15px;
+         padding-right:15px;
+         margin-bottom:20px;
+      }
+      .publisher{
+         font-size:20px;
+         border-right:1px solid #CCC;
+         margin-right:15px;
+         padding-right:15px;
+         margin-bottom:20px;
+      }
+      .publishedDate{
+         font-size:20px;
+         margin-bottom:20px;
+         display:block;
+      }
+      .gpa{
+         display:block;
+         font-size:20px;
+      }
+      span{
+         margin-bottom:20px;
+      }
+      .info{
+         margin-bottom:20px;
+      }
+      .border_bottom{
+         border-bottom:1px solid #CCC;
+         margin-bottom:40px;
+      }
+      .price, .sale{
+         display:block;
+         margin-bottom:20px;
+         font-size:18px;
+      }
+      .salesPrice{
+         font-size:30px;
+         color:red;
+         font-weight:bold;
+      }
+      .sales{
+         font-size:20px;
+         margin-bottom:25px;
+         display:block;
+      }
+      .price_info{
+         border-bottom:1px solid #CCC;
+         margin-bottom:50px;
+      }
+      .button{
+         width:180px;
+         padding:12px;
+         font-size:20px;
+         margin-left:10px;
+      }
+      .book_info{
+         border-top:3px solid #DDD;
+         padding:50px 30px;
+         margin-top:20px;
+         margin-bottom:20px;
+         font-size:20px;
+      }
+      .book_title{
+         font-size:30px;
+         display:block;
+      }
+      .listnodata02 {
+         color:#333333;
+         border:none;
+         border-bottom:1px solid #e7e7e7;
+         padding:25px 0px;
+         text-align:center;
+         font-size:12px;
+      }
+      .input_style02{
+         height:19px;
+         border:1px solid #c6c6c6;
+         width:28px;
+         line-height:19px;
+      }
+      
+      /* basket css*/
+      .sub_button{
+         padding:2px;
+         width:80px;
+         display:block;
+         margin:5px auto 5px;
+         background-color:#EEE;
+         padding:3px;
+         border-top-right-radius:5px;
+         border-bottom-right-radius:5px;
+         border-bottom-left-radius:5px;
+         border-top-left-radius:5px;
+      }
+      
+
+      .ui_count_box{position:relative;width:38px;height:19px;text-align:left;margin:5px auto;}
+      .ui_count_box .input_style02{width:26px;height:17px;text-align:center;*margin-top:-1px;}
+      .ui_count_box .quantity_up {position:absolute;right:0;top:0;border:1px solid #d0d0d0;width:9px;height:9px;overflow:hidden;}
+      .ui_count_box .quantity_down {position:absolute;right:0;bottom:0;border:1px solid #d0d0d0;width:9px;height:9px;overflow:hidden;}
+      .ui_count_box .quantity_up img,
+      .ui_count_box .quantity_down img{vertical-align:top;}
+      .ui_count_box .quantity_up:hover,
+      .ui_count_box .quantity_down:hover{border:1px solid #adadad}
+      
+      .ui_count_box .quantity_up {position:absolute;right:0;top:0;border:1px solid #d0d0d0;width:9px;height:9px;overflow:hidden;}
+      .ui_count_box .quantity_down {position:absolute;right:0;bottom:0;border:1px solid #d0d0d0;width:9px;height:9px;overflow:hidden;}
+    </style>
+</head>
+<body>
+
+<!-- Main Navigation ========================================================================================== -->
+ 
+ <%@include file="/layout/mainNavigation.jsp" %>
+
+<!-- Header ========================================================================================== -->
+ 
+ <%@include file="/layout/header.jsp" %>
+
+<!-- Container ======================================================================================= -->
+<div class="container">
+   
+         
+      <!-- <div class="listnodata02">
+         장바구니에 담긴 상품이 없습니다. <br /><br />
+         고객님은 현재 비로그인 상태입니다. <br />
+         장바구니 보관상품을 확인하시려면 로그인을 하여 주세요.
+      </div> -->
+      
+      
+      <h1>장바구니</h1>
+      <br>
+      
+      <form name="basket" action="/book/purchasedInfo/order" method="post">
+      
+      <div id="checkedTrue">   </div>
+      <table border="1" width="100%">
+         <thead>
+            <tr>
+               <th class="center"><input type="checkbox" class="checkbox" title="전체선택" id="all" onclick="allClick();" /></th>
+               <th class="center" colspan="2">상품정보</th>
+               <th class="center">판매가</th>
+               <th class="center">수량</th>
+               <th class="center">합계</th>
+               <th class="center">선택</th>
+            </tr>
+         </thead>
+         <tbody>
+            <c:forEach items="${basketItemList}" var="basketItem">
+               <tr>
+                  <td>
+                     <input type="checkbox" name="check" value="${basketItem.book.bookId}${','}${basketItem.count}" />
+                     
+                  </td>
+                  <td>
+                     <a href="/bookMarket/book/detail?bookId=${basketItem.book.bookId}">
+                        <img src="${basketItem.book.img}" width="90" height="77">
+                     </a>
+                  </td>
+                  <td>
+                     <div>
+                        <a href="/bookMarket/book/detail?bookId=${basketItem.book.bookId}">
+                           <span>[도서]${basketItem.book.title}</span>
+                        </a>
+                     </div>
+                  </td>
+                  <td>
+                     <div>${basketItem.book.price}원</div>
+                     <%-- <input type="hidden" name="${basketItem.book.bookId}_price" value="${basketItem.book.price}"> --%>
+                  </td>
+                  <td class="center">
+						<div class="ui_count_box">
+							<input id="count" name="basketCount" type="text" class="input_style02" value="1" style="ime-mode:disabled;" title="수량" maxlength="3" />
+							<a href="#" class="quantity_up"><img src="http://image.kyobobook.co.kr/ink/images/common/icon_quantity_up.gif" alt="수량증가" onclick="Cnt_UpDown(document.basket.basketCount, 'U');"/></a>
+							<a href="#" class="quantity_down"><img src="http://image.kyobobook.co.kr/ink/images/common/icon_quantity_down.gif" alt="수량감소" onclick="Cnt_UpDown(document.basket.basketCount, 'D');"/></a>
+						</div>
+						<input type="button" value="변경" onclick="count_change();">
+				  </td>
+                  <td class="center">
+                     <div><del>${basketItem.book.price}원</del></div>
+                           <div>22,500원 [${degree.discount}%↓]</div>
+                  </td>
+                  <td class="center">
+                     <a href="#"><input type="button" class="sub_button" value="바로구매"></a>
+                     <a href="#"><input type="button" class="sub_button" value="찜하기"></a>
+                     <a href="/bookMarket/basketItem/delete?basketItemId=${basketItem.basketItemId}"><input type="button" class="sub_button" value="삭제"></a>
+                  </td>
+               </tr>
+            </c:forEach>
+         </tbody>
+      </table>
+      <br>
+      <div>
+         <div>
+            <table border="1" width="100%">
+               <tbody>
+                  <tr>
+                     <th class="center">상품금액 /<span id="total_goods_kind">0</span>종(<span id="total_goods_etc">0</span>개)</th>
+                     <th class="center">배송비 <a href="#n" onclick="layerOpen(this,'#info_layer04');return false;"></a></th>
+                     <th class="center">결제 예정금액</th>
+                  </tr>
+                  <tr>
+                     <td class="right">
+                        <strong id="total_goods_pay">22,500</strong>원
+                     </td>
+                     <td class="right">
+                        <div class="posr">
+                           <span class="icon_plus"></span>
+                           <strong><span id="total_deliv_pay">0</span></strong>원
+                        </div>
+                     </td>
+                     <td class="right font_red">
+                        <div class="posr">
+                           <span class="icon_equal"></span>
+                           <strong><span id="total_ord_pay">22,500</span></strong>원
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <br>
+      <div>
+         <div align="right">
+           <button>회원 주문하기</button>
+         </div>
+      </div>
+   </form>
+      
+   
+<!-- Footer ========================================================================================== -->
+<footer>
+    <hr>
+    <ul class="nav nav-pills">
+        <li class="pull-right"><a href="#top">위로 이동</a></li>
+        <li><a href="#">커뮤니티 홈</a>
+        </li>
+        <li><a href="#">RSS</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">도움말</a></li>
+        <li><a href="#">회원탈퇴</a></li>
+    </ul>
+    <p>© NamooSori 2015.</p>
+     
+</footer>
+</div>
+
+</body>
+</html>

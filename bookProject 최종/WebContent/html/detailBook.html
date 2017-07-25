@@ -1,0 +1,253 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>도서 상세조회</title>
+	<link href="/book/resources/css/bootstrap_modify.css" rel="stylesheet">
+    <link href="/book/resources/css/layout.css" rel="stylesheet">
+    <style>
+    	.search_box{
+    		border:0px;
+    		width:400px;
+    		height:40px;	
+    		font-size:16px;
+    		padding:5px;
+    		border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+    	}
+    	.category_select{
+    		position:absolute;
+    		top:35px;
+    		left:302px;
+    		border:0px;
+    		padding:3px;
+			margin-right:-5px;   
+			font-size:16px;
+			height:40px;
+			width:80px;
+			border-left:1px solid #EEE;
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+		}
+		.img_size{
+			height:450px;
+			border:1px solid #DDD;	
+			border-top-left-radius:5px;
+			border-bottom-left-radius:5px;
+			border-top-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		.new_list{
+			height:280px;
+			margin-top:23px;
+		}
+		.book_list_img{
+			height:180px;
+			display:block;
+			margin:0 auto;
+			border:1px solid #DDD;
+		}
+		.best_list{
+			margin-top:20px;
+			height:280px;
+		}
+		.user_list{
+			height:280px;
+			margin-top:70px;
+		}
+		.table_border{
+			width:90%;
+			height:280px;
+			margin:0 auto;
+		}
+		.border{
+			border-top:1px solid #DDD;
+			margin-top:5px;
+		}
+		.center{
+			margin-top:5px;
+			text-align:center;
+		}
+		h4{
+			display:inline;
+		}
+		h6{
+			display:inline;
+		}
+		.more{
+			float:right;
+			display:inline;
+		}
+		.top{
+			background:#5e6b9e;
+		}
+		.book_img{
+			padding-left:30px;
+			
+		}
+		.title{
+			font-size:35px;
+			color:#3a60df;
+			font-weight:bold;
+			display:block;
+		}
+		.author{
+			font-size:20px;
+			border-right:1px solid #CCC;
+			margin-right:15px;
+			padding-right:15px;
+			margin-bottom:20px;
+		}
+		.publisher{
+			font-size:20px;
+			border-right:1px solid #CCC;
+			margin-right:15px;
+			padding-right:15px;
+			margin-bottom:20px;
+		}
+		.publishedDate{
+			font-size:20px;
+			margin-bottom:20px;
+			display:block;
+		}
+		.gpa{
+			display:block;
+			font-size:20px;
+		}
+		span{
+			margin-bottom:20px;
+		}
+		.info{
+			margin-bottom:20px;
+		}
+		.border_bottom{
+			border-bottom:1px solid #CCC;
+			margin-bottom:40px;
+		}
+		.price, .sale{
+			display:block;
+			margin-bottom:20px;
+			font-size:18px;
+		}
+		.salesPrice{
+			font-size:30px;
+			color:red;
+			font-weight:bold;
+		}
+		.sales{
+			font-size:20px;
+			margin-bottom:25px;
+			display:block;
+		}
+		.price_info{
+			border-bottom:1px solid #CCC;
+			margin-bottom:50px;
+		}
+		.button{
+			width:150px;
+			padding:12px;
+			font-size:20px;
+			margin-left:10px;
+		}
+		.book_info{
+			border-top:3px solid #DDD;
+			padding:50px 30px;
+			margin-top:20px;
+			font-size:20px;
+		}
+		.book_title{
+			font-size:30px;
+			display:block;
+		}
+    </style>
+</head>
+<body>
+
+<!-- Main Navigation ========================================================================================== -->
+<div class="navbar navbar-default navbar-fixed-top top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">홈</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ><a href="#">홈</a></li>
+                <li ><a href="#">게시판 관리</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            	<li><a href="#">로그인</a></li>
+            	<li><a href="#">회원가입</a></li>
+            	<li><a href="#">마이페이지</a></li>
+                <li><a href="#">로그아웃 [사용자명]</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Header ========================================================================================== -->
+
+  <%@include file="/layout/header.jsp" %>
+
+
+<!-- Container ======================================================================================= -->
+<div class="container">
+
+    <%@include file="/layout/categoryMenu.jsp" %>
+	
+		<div class="col-lg-4 col-lg-4 book_img">
+			<img src="http://image.kyobobook.co.kr/images/book/xlarge/359/x9788934975359.jpg" class="img_size">
+		</div>
+		<div class="col-lg-6 col-lg-6">
+			<div class="border_bottom">
+				<span class="title">미니어처리스트</span>
+				<div class="info"><span class="author">제시 버튼</span>
+				<span class="publisher">비채</span></div>
+				<span class="publishedDate">2016년 08월 08일</span>
+				<span class="gpa">평점</span>
+			</div>
+			<div class="price_info">
+				<span class="price">정가 : 14,500원</span>
+				<span class="sale">판매가 : <span class="salesPrice">12,000원</span></span>
+				<span class="sales">할인율</span>
+			</div>
+			<div class="form-btn">
+				<button class="btn btn-large btn-warning button">찜</button>
+				<button class="btn btn-large btn-warning button">장바구니</button>
+				<button class="btn btn-large btn-default button">바로구매</button>
+			</div>
+		</div>
+		<div class="col-lg-12 col-lg-12">
+			<div class="book_info">
+			<span class="book_title">책소개</span>
+			<span>17세기 암스테르담이라는 이국적 시공간을 배경으로, ‘미니어처 하우스’를 둘러싼 비밀들을 추적하는 고딕 미스터리 『미니어처리스트』. 로맨스와 미스터리, 두 갈래 뼈대를 바탕으로 ‘이야기’라는 소설 본연의 매력을 유감없이 발휘하는 작품이다. 4년이라는 긴 시간 동안 자료 조사를 진행하며 이국적 시공간을 섬세하고 정교하게 그려내 ‘17세기 암스테르담의 문학적 환생’이라는 극찬을 받았다.
+<br>
+<br>
+골든에이지를 구가하던 화려한 도시, 1686년의 암스테르담. 열여덟 살 시골 소녀 넬라 오트만은 암스테르담에서 가장 성공한 상인 요하네스 브란트와 결혼하고, 그의 대저택에서 살아가게 된다. 화려하고 풍족한 생활, 사랑이 가득한 신혼을 꿈꿨던 그녀가 마주한 건 냉담하고 차가운 집안사람뿐이다. 게다가 하나같이 밝히지 못할 비밀을 감춘 듯, 매일 밤 집 안에서는 알 수 없는 일들이 벌어진다. 
+<br>
+<br>
+그러던 어느 날 요하네스는 넬라에게 결혼 선물이라며 미니어처 하우스를 선물한다. 화려함과 정교함의 극치를 보여주는, 당시 가치로 실제 대저택과 동일한 값어치의 선물이었다. 집과 집안사람을 그대로 축소한 듯 정교한 인형의 집에는 넬라 주변에서 벌어지는 비극적 사건들이 예언처럼 미리 새겨져 있었고, 하나씩 하나씩 문을 열 때마다 진실이 드러난다. 두려워진 넬라는 이 모든 일을 예견한 미니어처리스트를 찾아 나서는데…….</span>
+			<span>이 책은 목차가 없습니다.</span>
+		</div>
+		</div>
+		
+	
+<!-- Footer ========================================================================================== -->
+<footer>
+    <hr>
+    <ul class="nav nav-pills">
+        <li class="pull-right"><a href="#top">위로 이동</a></li>
+        <li><a href="#">커뮤니티 홈</a>
+        </li>
+        <li><a href="#">RSS</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">도움말</a></li>
+        <li><a href="#">회원탈퇴</a></li>
+    </ul>
+    <p>© NamooSori 2015.</p>
+     
+</footer>
+</div>
+
+</body>
+</html>

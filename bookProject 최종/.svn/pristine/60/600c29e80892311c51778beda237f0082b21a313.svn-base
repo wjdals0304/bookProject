@@ -1,0 +1,25 @@
+package book.dao;
+
+import java.util.HashMap;
+import java.util.List;
+
+import book.domain.PurchasedInfo;
+
+public interface PurchasedInfoDao {
+
+	public int getLastOrderNumber();
+	public void create(PurchasedInfo purchasedInfo);
+	public List<PurchasedInfo> retrieveAllByBookId(String bookId);
+	public List<PurchasedInfo> retrieveByMemberId(String memberId);
+	public List<PurchasedInfo> retrieveByOrderNumber(String orderNumber);
+	public Integer retrievePurchasedCount(String memberId);
+	public List<PurchasedInfo> retrievePurchasedCountByMonth(List<String> orderIdList);
+	
+	// 주문번호로 구매리스트 가져오기
+	public List<PurchasedInfo> retrieveAllByOrderId(String orderId);
+	
+	public int countByBook(PurchasedInfo purchasedInfo);
+	public void createPurchasedInfo(List<PurchasedInfo> purchasedInfoList);
+
+	public String checkPurchasedInfoIdByOrderIdMemberId(HashMap<String, String> map);
+}

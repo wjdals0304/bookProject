@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.CommentMapper">
+
+	<!-- 댓글 저장 -->
+	<insert id="create" parameterType="Comment"> 
+		INSERT INTO comment_tb
+			(contents, gpa, loginId, bookId)
+		VALUES (#{contents}, #{gpa}, #{loginId}, #{bookId})
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<update id="delete" parameterType="String">
+		UPDATE comment_tb
+		   SET DELYN = 'Y'
+		 WHERE commentId = #{commentId}
+	</update>
+	
+	<!-- 상세조회시(bookId) 댓글 목록 -->
+	<select id="retrieveAllByBookId" parameterType="String" resultType="Comment">
+		SELECT commentId, contents, gpa, loginId, regDate, bookId
+		  FROM comment_tb
+		 WHERE bookId = #{bookId} and DELYN = 'N'
+	</select>
+	
+	<select id="retrieveAllByBookIdForPasing" parameterType="HashMap" resultType="Comment">
+		<![CDATA[
+			SELECT rnum, commentId, contents, gpa, regDate, loginId, bookId
+			  FROM (SELECT rnum, commentId, contents, gpa, regDate, loginId, bookId
+					  FROM (SELECT rownum as rnum, commentId, contents, gpa, regDate, loginId, bookId
+							  FROM COMMENT_TB
+							  WHERE bookId = #{bookId} and DELYN = 'N'
+							)
+					 WHERE rnum < #{endNum}
+					)
+			WHERE rnum > #{startNum}
+		]]>
+	</select>
+</mapper>

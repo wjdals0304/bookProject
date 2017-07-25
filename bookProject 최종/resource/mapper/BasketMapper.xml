@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.BasketMapper">
+	
+	<!-- 장바구니 생성 -->
+	<insert id="createBasket" parameterType="Basket"> 
+		INSERT INTO basket_tb
+			(memberId)
+		VALUES (#{memberId})
+	</insert>
+	
+	<!-- 내 장바구니 조회 -->
+	<select id="retrieveByMemberId" parameterType="String" resultType="Basket"> 
+		SELECT basketId, memberId
+		  FROM basket_tb
+		 WHERE memberId = #{memberId}
+	</select>
+	
+</mapper>

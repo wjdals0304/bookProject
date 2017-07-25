@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+		<!-- 위의 대소문자는 반드시 구별한다. -->
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="book.domain.Book" alias="Book" />
+		<typeAlias type="book.domain.Basket" alias="Basket" />
+		<typeAlias type="book.domain.BasketItem" alias="BasketItem" />
+		<typeAlias type="book.domain.Category" alias="Category" />
+		<typeAlias type="book.domain.Comment" alias="Comment" />
+		<typeAlias type="book.domain.CustomedInfo" alias="CustomedInfo" />
+		<typeAlias type="book.domain.Degree" alias="Degree" />
+		<typeAlias type="book.domain.Member" alias="Member" />
+		<typeAlias type="book.domain.PurchasedInfo" alias="PurchasedInfo" />
+		<typeAlias type="book.domain.Zzim" alias="Zzim" />
+		<typeAlias type="book.domain.Order" alias="Order" />
+	</typeAliases>
+
+	<environments default="development"><!-- id 값에 있는 이름을 쓰겠다고 명시 여러개일 경우 하나의 
+			이름 명시하면 그 db쓰는 거임 -->
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED"><!-- POOLED하면 풀에서 계속 가져다 쓰는거고 UNPOOLED하면 계속 
+					DB서버에 끊었다 접속했다 함 -->
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@192.168.0.77:1521:XE" />
+				<property name="username" value="book" />
+				<property name="password" value="book" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="mapper/BookMapper.xml" />
+		<mapper resource="mapper/BasketMapper.xml" />
+		<mapper resource="mapper/BasketItemMapper.xml" />
+		<mapper resource="mapper/CategoryMapper.xml" />
+		<mapper resource="mapper/CommentMapper.xml" />
+		<mapper resource="mapper/CustomedInfoMapper.xml" />
+		<mapper resource="mapper/DegreeMapper.xml" />
+		<mapper resource="mapper/MemberMapper.xml" />
+		<mapper resource="mapper/PurchasedInfoMapper.xml" />
+		<mapper resource="mapper/ZzimMapper.xml" />
+		<mapper resource="mapper/OrderMapper.xml" />
+	</mappers>
+
+</configuration>

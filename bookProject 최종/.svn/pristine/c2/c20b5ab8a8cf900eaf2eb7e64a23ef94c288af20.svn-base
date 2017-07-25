@@ -1,0 +1,11 @@
+package book.servlet;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+@WebServlet("/book/recommendedList")
+public class RecommendedBookListServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 180981080652757727L;
+
+}

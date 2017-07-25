@@ -1,0 +1,87 @@
+package book.servlet;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import book.bookService.BookService;
+import book.bookService.BookServiceLogic;
+import book.domain.Book;
+import book.domain.BookListPaging;
+@WebServlet("/search")
+public class BookSearchServlet extends HttpServlet {
+	//
+	private static final long serialVersionUID = 4414678668041804754L;
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
+		String keyword = req.getParameter("keyword");
+		String categoryId = req.getParameter("categoryId");
+		String index = req.getParameter("index");
+		HashMap<String, Object> map = new HashMap<>();
+		
+		if(index == null) {
+			index = "1";
+		}
+		
+		BookService dao = new BookServiceLogic();
+		
+		List<Book> allList = new ArrayList<>();
+		
+		if(categoryId.equals("total") && keyword.equals("")) {
+			allList = null;
+		}
+		else if(categoryId.equals("total")) {
+			allList = dao.searchBookByKeyword(keyword);
+		}
+		else {
+			allList = dao.searchBookByCategory(keyword, categoryId);
+		}
+		
+		int num = Integer.parseInt(index);
+		BookListPaging paging = new BookListPaging();
+		
+		paging.setPageNo(num);
+		paging.setPageSize(5);
+		paging.setTotalCount(allList.size());
+		
+		
+		map.put("index", index);
+		map.put("keyword", "%"+keyword+"%");
+		map.put("categoryId", categoryId);
+		map.put("pageSize", paging.getPageSize());
+		
+		List<Book> pagingList = new ArrayList<>();
+		
+		if(categoryId.equals("total") && keyword.equals("")) {
+			pagingList = null;
+		}
+		else if(categoryId.equals("total")) {
+			pagingList = dao.searchBookByKeywordPaging(map);
+		}
+		else {
+			pagingList = dao.searchBookByCategoryPaging(map);
+		}
+		
+		for(Book book : pagingList) {
+			long gpa = (long)book.getAllGpa();
+			long gpa2;
+			gpa2 = (gpa*100)/10;
+			book.setAllGpa(gpa2);
+		}
+
+		req.setAttribute("index", index);
+		req.setAttribute("paging", paging);
+		
+		req.setAttribute("list2", pagingList);
+		req.setAttribute("categoryId", categoryId);
+		req.setAttribute("keyword", keyword);
+		req.getRequestDispatcher("/jsp/showList.jsp").forward(req, resp);
+	}
+}

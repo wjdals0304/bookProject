@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book.dao.mapper.CategoryMapper">
+
+	<!-- categoryId로 해당하는 카테고리 조회 -->
+	<select id="retrieveByCategoryId" parameterType="String" resultType="Category"> 
+		SELECT categoryId, categoryName FROM category_tb WHERE categoryId= #{categoryId}
+	</select>
+	
+	<!-- category 모두 조회 -->
+	<select id="retrieveAll" resultType="Category"> 
+		SELECT categoryId, categoryName FROM category_tb
+	</select>
+	
+</mapper>

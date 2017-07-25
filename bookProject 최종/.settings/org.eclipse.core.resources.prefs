@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//WebContent/html=UTF-8
+encoding//WebContent/html/index.html=UTF-8
+encoding//WebContent/resources/css/bootstrap_modify.css=UTF-8
+encoding//test/book/dao/mybatis/BookServiceLogicTest.java=UTF-8

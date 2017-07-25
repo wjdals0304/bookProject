@@ -1,0 +1,51 @@
+package book.dao.mybatis;
+
+import java.util.HashMap;
+
+import org.junit.Test;
+
+import book.dao.CustomedInfoDao;
+import book.domain.Book;
+import book.domain.CustomedInfo;
+
+public class CustomedInfoDaoLogicTest {
+
+/*	@Test
+	public void testCreate() {
+		
+		CustomedInfoDao dao = new CustomedInfoDaoLogic();
+		Book book = new Book();
+		book.setBookId("5");
+		
+		CustomedInfo customedInfo = new CustomedInfo();
+		customedInfo.setMemberId("5");
+		
+		customedInfo.setBook(book);
+		
+		dao.create(customedInfo);
+		
+	}*/
+
+/*	@Test
+	public void testUpdate() {
+		//
+		CustomedInfoDao dao = new CustomedInfoDaoLogic();
+		
+		CustomedInfo customedInfo = new CustomedInfo();
+		customedInfo.setMemberId("1");
+		customedInfo.setBookId("1");
+		dao.update(customedInfo);
+		
+	}*/
+
+	@Test
+	public void testRetrieveByMemberId() {
+		
+		CustomedInfoDao dao = new CustomedInfoDaoLogic();
+		
+		CustomedInfo customedInfo = dao.retrieveByMemberId("7");
+		
+		System.out.println(customedInfo);
+	}
+
+}

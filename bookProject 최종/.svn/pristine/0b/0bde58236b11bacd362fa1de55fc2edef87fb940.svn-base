@@ -1,0 +1,55 @@
+package book.dao.mybatis;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.Test;
+
+import book.dao.OrderDao;
+import book.dao.PurchasedInfoDao;
+import book.domain.Order;
+import book.domain.PurchasedInfo;
+
+public class OrderDaoLogicTest {
+	
+	/*// º£½ºÆ®¼¿·¯ 
+	@Test
+	public void testRetrieveOrderByMonth() throws IOException{
+		
+		OrderDao dao = new OrderDaoLogic();
+		System.out.println("dddd");
+		List<String> orderIdList = dao.retrieveOrderByMonth();
+		
+		for(String orderId : orderIdList){
+			System.out.println("orderId : " + orderId);
+		}
+		
+	}*/
+	
+	@Test
+	public void testRetrieveOrderBYMemberId() throws IOException{
+		
+		OrderDao dao = new OrderDaoLogic();
+		List<String> memberIdList = dao.retrieveOrderByBookId("4");
+		
+		for(String memberId : memberIdList){
+			System.out.println("memberid : " + memberId);
+			
+		}
+		
+	}
+	@Test
+	public void testRetrieverOrderByMemberId() throws IOException{
+		OrderDao dao = new OrderDaoLogic();
+		
+		List<String> memberIdList = dao.retrieveOrderByBookId("4");
+		
+		List<String> bookIdList = dao.retrieverOrderByMemberId(memberIdList);
+		
+		for(String bookId : bookIdList){
+			System.out.println("bookId : " + bookId);
+		}
+	}
+		
+	
+}
